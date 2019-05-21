@@ -13,8 +13,6 @@
         <!-- Font Awesome -->
         <link rel="icon" type="image/png" href="{{ asset('img/bus-home.png') }}" />
         <link href="{{ asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
         <!-- Theme style -->
         <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
         <!-- iCheck -->
@@ -24,8 +22,6 @@
         <!-- jvectormap -->
         <link href="{{ asset('plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet">
         <link href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
-        <!-- Google Font: Source Sans Pro -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
         <link href="{{ asset('css/smartadmin-production-plugins.min.css') }}" rel="stylesheet" type="text/css" media="screen">
         <link href="{{ asset('css/smartadmin-production.min.css') }}" rel="stylesheet">
@@ -67,6 +63,12 @@
               /* enable scrollbar */
               .ui-jqgrid-bdiv {
                   overflow: auto
+              }
+              .fa-square-o{
+                  cursor: pointer;
+              }
+              .fa-check-square-o{
+                  cursor: pointer;
               }
         </style>
     </head>

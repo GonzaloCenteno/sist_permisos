@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
         rowNum: 10, sortname: 'sro_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE ROLES', align: "center",
         colModel: [
             {name: 'sro_id', index: 'sro_id', align: 'center',width: 50, hidden:true},
-            {name: 'sro_descripcion', index: 'sro_descripcion', align: 'left', width: 250},
+            {name: 'sro_descripcion', index: 'sro_descripcion', align: 'left', width: 260},
             {name: 'sro_estado', index: 'sro_estado', align: 'left', width: 120}
         ],
         pager: '#paginador_tblroles_rol',
@@ -65,9 +65,9 @@ jQuery(document).ready(function($){
         colModel: [
             {name: 'rme_id', index: 'rme_id', align: 'center',width: 50, hidden:true},
             {name: 'men_id', index: 'men_id', align: 'center', width: 50, hidden:true},
-            {name: 'men_descripcion', index: 'men_descripcion', align: 'left', width: 270},
+            {name: 'men_descripcion', index: 'men_descripcion', align: 'left', width: 280},
             {name: 'men_titulo', index: 'men_titulo', align: 'left', width: 230},
-            {name: 'men_sistema', index: 'men_sistema', align: 'left', width: 150}
+            {name: 'men_sistema', index: 'men_sistema', align: 'left', width: 156}
         ],
         pager: '#paginador_tblmenu_men',
         rowList: [],       
@@ -104,41 +104,41 @@ jQuery(document).ready(function($){
             {name: 'men_id', index: 'men_id', align: 'center', width: 10, hidden:true},
             {name: 'sist_id', index: 'sist_id', align: 'center', width: 10, hidden:true},
             {name: 'sro_id', index: 'sro_id', align: 'center', width: 10, hidden:true},
-            {name: 'sme_titulo', index: 'sme_titulo', align: 'left', width: 200},
+            {name: 'sme_titulo', index: 'sme_titulo', align: 'left', width: 211},
             {name: 'btn_view', index: 'btn_view', align: 'center', width: 91,
             formatter:function (cellvalue, options, rowObject) 
             {
-                var estado = (parseInt(cellvalue) == 0) ? '' : 'checked="checked"';
+                var estado = (parseInt(cellvalue) == 0) ? 'fa fa-square-o' : 'fa fa-check-square-o';
                 var valor = (parseInt(cellvalue) == 0) ? 1 : 0;
-                var html = '<input style="height:35px; width:100%" type="checkbox" onchange="cambiar_estado_permiso('+rowObject[0]+',\'btn_view\','+valor+')" '+estado+'>';
+                var html = '<i style="width:100%" class="'+estado+' fa-3x" aria-hidden="true" onclick="cambiar_estado_permiso('+rowObject[0]+',\'btn_view\','+valor+')"></i>';
                 return html;                                                                        
             }},
             {name: 'btn_new', index: 'btn_new', align: 'center', width: 91,formatter:function (cellvalue, options, rowObject) 
             {
-                var estado = (parseInt(cellvalue) == 0) ? '' : 'checked="checked"';
+                var estado = (parseInt(cellvalue) == 0) ? 'fa fa-square-o' : 'fa fa-check-square-o';
                 var valor = (parseInt(cellvalue) == 0) ? 1 : 0;
-                var html = '<input style="height:35px; width:100%" type="checkbox" onchange="cambiar_estado_permiso('+rowObject[0]+',\'btn_new\','+valor+')" '+estado+'>';
+                var html = '<i style="width:100%" class="'+estado+' fa-3x" aria-hidden="true" onclick="cambiar_estado_permiso('+rowObject[0]+',\'btn_new\','+valor+')"></i>';
                 return html;                                                                        
             }},
             {name: 'btn_edit', index: 'btn_edit', align: 'center', width: 91,formatter:function (cellvalue, options, rowObject) 
             {
-                var estado = (parseInt(cellvalue) == 0) ? '' : 'checked="checked"';
+                var estado = (parseInt(cellvalue) == 0) ? 'fa fa-square-o' : 'fa fa-check-square-o';
                 var valor = (parseInt(cellvalue) == 0) ? 1 : 0;
-                var html = '<input style="height:35px; width:100%" type="checkbox" onchange="cambiar_estado_permiso('+rowObject[0]+',\'btn_edit\','+valor+')" '+estado+'>';
+                var html = '<i style="width:100%" class="'+estado+' fa-3x" aria-hidden="true" onclick="cambiar_estado_permiso('+rowObject[0]+',\'btn_edit\','+valor+')"></i>';
                 return html;                                                                        
             }},
             {name: 'btn_del', index: 'btn_del', align: 'center', width: 91,formatter:function (cellvalue, options, rowObject) 
             {
-                var estado = (parseInt(cellvalue) == 0) ? '' : 'checked="checked"';
+                var estado = (parseInt(cellvalue) == 0) ? 'fa fa-square-o' : 'fa fa-check-square-o';
                 var valor = (parseInt(cellvalue) == 0) ? 1 : 0;
-                var html = '<input style="height:35px; width:100%" type="checkbox" onchange="cambiar_estado_permiso('+rowObject[0]+',\'btn_del\','+valor+')" '+estado+'>';
+                var html = '<i style="width:100%" class="'+estado+' fa-3x" aria-hidden="true" onclick="cambiar_estado_permiso('+rowObject[0]+',\'btn_del\','+valor+')"></i>';
                 return html;                                                                        
             }},
             {name: 'btn_print', index: 'btn_print', align: 'center', width: 91,formatter:function (cellvalue, options, rowObject) 
             {
-                var estado = (parseInt(cellvalue) == 0) ? '' : 'checked="checked"';
+                var estado = (parseInt(cellvalue) == 0) ? 'fa fa-square-o' : 'fa fa-check-square-o';
                 var valor = (parseInt(cellvalue) == 0) ? 1 : 0;
-                var html = '<input style="height:35px; width:100%" type="checkbox" onchange="cambiar_estado_permiso('+rowObject[0]+',\'btn_print\','+valor+')" '+estado+'>';
+                var html = '<i style="width:100%" class="'+estado+' fa-3x" aria-hidden="true" onclick="cambiar_estado_permiso('+rowObject[0]+',\'btn_print\','+valor+')"></i>';
                 return html;                                                                        
             }}
         ],
@@ -290,6 +290,7 @@ jQuery(document).on("click", "#btn_agregar_menus_rol", function(){
         icon:'fa fa-tasks',
         title: 'SELECCIONAR MENU',
         type: 'red',
+        animationBounce: 2, 
         typeAnimated: true,
         backgroundDismiss: false,
         backgroundDismissAnimation: 'glow',
@@ -485,6 +486,7 @@ jQuery(document).on("click", "#btn_agregar_submenus_rol", function(){
         icon:'fa fa-tasks',
         title: 'SELECCIONAR SUB-MENU',
         type: 'red',
+        animationBounce: 2,
         typeAnimated: true,
         backgroundDismiss: false,
         backgroundDismissAnimation: 'glow',

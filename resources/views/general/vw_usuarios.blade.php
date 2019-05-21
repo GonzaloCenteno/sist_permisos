@@ -28,12 +28,13 @@
             <table id="TblUsuarios" class="table table-bordered dt-responsive compact">
                 <thead>
                     <tr>
-                        <th style="width: 10%;background-color: #DB3543; color: white;">USUARIO</th>
-                        <th style="width: 20%;background-color: #DB3543; color: white;">NOMBRES</th>
-                        <th style="width: 20%;background-color: #DB3543; color: white;">CORREO</th>
-                        <th style="width: 50%;background-color: #DB3543; color: white;">NOMBRE DISTINGUIDO</th>
+                        <th style="width: 20%;background-color: #DB3543; color: white;">USUARIO</th>
+                        <th style="width: 30%;background-color: #DB3543; color: white;">NOMBRES</th>
+                        <th style="width: 30%;background-color: #DB3543; color: white;">CORREO</th>
+                        <th style="width: 40%;background-color: #DB3543; color: white;">NOMBRE DISTINGUIDO</th>
                         <th style="width: 10%;background-color: #DB3543; color: white;">ESTADO</th>
-                        <th style="width: 10%;background-color: #DB3543; color: white;">VER</th>
+                        <th style="width: 5%;background-color: #DB3543; color: white;">ASIGNAR</th>
+                        <th style="width: 5%;background-color: #DB3543; color: white;">VER</th>
                     </tr>
                 </thead>
             </table>
@@ -54,15 +55,15 @@
                 <div class="row col-md-12">
                     <div class="card card-danger card-outline col-md-3">
                         <div class="card-header">
-                            <h5 class="m-0">SISTEMAS</h5>
+                            <h5 class="m-0">SISTEMAS ASIGNADOS</h5>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-10"> 
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <table id="tablaSistemas"></table>
                                         <div id="paginador_tablaSistemas"></div>                                                                   
                                     </div>
@@ -73,15 +74,15 @@
 
                     <div class="card card-danger card-outline col-md-3">
                         <div class="card-header">
-                            <h5 class="m-0">ROLES</h5>
+                            <h5 class="m-0">ROL - ASIGNADO</h5>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-10"> 
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <table id="tablaRoles"></table>
                                         <div id="paginador_tablaRoles"></div>                                                                   
                                     </div>
@@ -100,8 +101,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-10 text-center"> 
+                                    <div class="col-md-12 text-center">
+                                        <div class="form-group"> 
                                             <table id="tablaMenus"></table>
                                             <div id="paginador_tablaMenus"></div>                                                                   
                                         </div>
@@ -118,8 +119,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-10"> 
+                                    <div class="col-md-12 tablaSubMenus"> 
+                                        <div class="form-group">
                                             <table id="tablaSubMenus"></table>
                                             <div id="paginador_tablaSubMenus"></div>                                                                   
                                         </div>

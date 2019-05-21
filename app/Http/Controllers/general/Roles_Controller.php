@@ -366,11 +366,11 @@ class Roles_Controller extends Controller
             $menus = DB::table('permisos.tblrolmenu_rme')->where([['sro_id',$request['sro_id']],['men_id',$Datos->men_id]])->get();
             if (count($menus) >= 1) 
             {
-                $marcas = '<input style="height:30px; width:100%" type="checkbox" checked="checked" onchange="fn_crear_menus_rol('.$menus[0]->rme_id.',1)">';
+                $marcas = '<i style="width:100%" class="fa fa-check-square-o fa-3x" aria-hidden="true" onclick="fn_crear_menus_rol('.$menus[0]->rme_id.',1)"></i>';
             }
             else
             {
-                $marcas = '<input style="height:30px; width:100%" type="checkbox" onchange="fn_crear_menus_rol('.$Datos->men_id.',0)">';
+                $marcas = '<i style="width:100%" class="fa fa-square-o fa-3x" aria-hidden="true" onclick="fn_crear_menus_rol('.$Datos->men_id.',0)"></i>';
             }
             $Lista->rows[$Index]['id'] = $Datos->men_id;            
             $Lista->rows[$Index]['cell'] = array(
@@ -484,11 +484,11 @@ class Roles_Controller extends Controller
             $submenus = DB::table('permisos.tblrolmenusubmenu_rms')->where([['sro_id',$request['sro_id']],['men_id',$request['men_id']],['sme_id',$Datos->sme_id]])->get();
             if (count($submenus) >= 1) 
             {
-                $marcas = '<input style="height:30px; width:100%" type="checkbox" checked="checked" onchange="fn_crear_submenus_rol('.$submenus[0]->rms_id.',1)">';
+                $marcas = '<i style="width:100%" class="fa fa-check-square-o fa-3x" aria-hidden="true" onclick="fn_crear_submenus_rol('.$submenus[0]->rms_id.',1)"></i>';
             }
             else
             {
-                $marcas = '<input style="height:30px; width:100%" type="checkbox" onchange="fn_crear_submenus_rol('.$Datos->sme_id.',0)">';
+                $marcas = '<i style="width:100%" class="fa fa-square-o fa-3x" aria-hidden="true" onclick="fn_crear_submenus_rol('.$Datos->sme_id.',0)"></i>';
             }
             $Lista->rows[$Index]['id'] = $Datos->sme_id;            
             $Lista->rows[$Index]['cell'] = array(
