@@ -55,6 +55,14 @@ class Roles_Controller extends Controller
             {
                 return $this->crear_tabla_seleccionar_sub_menu($request);
             }
+            if ($request['show'] == 'traer_datos_menu') 
+            {
+                return $this->traer_datos_menu($request);
+            }
+            if ($request['show'] == 'traer_datos_submenu') 
+            {
+                return $this->traer_datos_submenu($request);
+            }
         }
     }
 
@@ -75,6 +83,10 @@ class Roles_Controller extends Controller
         if ($request['tipo'] == 4) 
         {
             return $this->crear_asignacion_submenu_rol($request);
+        }
+        if ($request['tipo'] == 5) 
+        {
+            return $this->crear_rol_sistema($request);
         }
     }
 
@@ -123,7 +135,14 @@ class Roles_Controller extends Controller
 
     public function store(Request $request)
     {
-       
+        if ($request['tipo'] == 1) 
+        {
+            return $this->modificar_orden_menu($request);
+        }
+        if ($request['tipo'] == 2) 
+        {
+            return $this->modificar_orden_submenu($request);
+        }
     }
     
     public function crear_tabla_sistemas(Request $request)
@@ -162,7 +181,8 @@ class Roles_Controller extends Controller
                 trim($Datos->sist_desc),
                 trim($Datos->sist_rut),
                 trim($Datos->sist_est),
-                '<button class="btn btn-xl btn-success" type="button" id="btn_agregar_menus"><i class="fa fa-plus"></i> AGREGAR</button>',
+                '<button class="btn btn-xl btn-danger" type="button" id="btn_agregar_roles"><i class="fa fa-plus"></i> AGREGAR</button>',
+                '<button class="btn btn-xl btn-success" type="button" id="btn_agregar_menus"><i class="fa fa-plus"></i> AGREGAR</button>',  
             );
         }
         return response()->json($Lista);
@@ -592,5 +612,120 @@ class Roles_Controller extends Controller
         {
             return $error;
         }
+    }
+    
+    public function traer_datos_menu(Request $request)
+    {
+        $menu = DB::select("select * from permisos.vw_rol_menu where sro_id = ".$request['sro_id']." and sist_id = ".$request['sist_id']." order by rme_orden asc");
+        return $menu;
+    }
+    
+    public function modificar_orden_menu(Request $request)
+    {
+        if($request->ajax())
+        {
+            $error = null;
+
+            DB::beginTransaction();
+            try{
+                $Tblrolmenu_rme = new Tblrolmenu_rme;
+                $filas = count($request['contador']);
+                for($i=0; $i<$filas; $i++)
+                {
+                    $Tblrolmenu_rme::where('rme_id',$request['rme_id'][$i])->update([
+                        'rme_orden' => isset($request['rme_orden'][$i]) ? $request['rme_orden'][$i] : 0,
+                    ]);
+                }
+                $success = 1;
+                DB::commit();
+            } catch (\Exception $ex) {
+                $success = 2;
+                $error = $ex->getMessage();
+                DB::rollback();
+            }
+        }
+
+        if ($success == 1) 
+        {
+            return $success;
+        }
+        else
+        {
+            return $error;
+        } 
+    }
+    
+    public function traer_datos_submenu(Request $request)
+    {
+        $submenu = DB::select("select * from permisos.vw_rol_submenu where men_id = ".$request['men_id']." and sist_id = ".$request['sist_id']." and sro_id = ".$request['sro_id']." order by rms_orden asc");
+        return $submenu;
+    }
+    
+    public function modificar_orden_submenu(Request $request)
+    {
+        if($request->ajax())
+        {
+            $error = null;
+
+            DB::beginTransaction();
+            try{
+                $Tblrolmenusubmenu_rms = new Tblrolmenusubmenu_rms;
+                $filas = count($request['contador1']);
+                for($i=0; $i<$filas; $i++)
+                {
+                    $Tblrolmenusubmenu_rms::where('rms_id',$request['rms_id'][$i])->update([
+                        'rms_orden' => isset($request['rms_orden'][$i]) ? $request['rms_orden'][$i] : 0,
+                    ]);
+                }
+                $success = 1;
+                DB::commit();
+            } catch (\Exception $ex) {
+                $success = 2;
+                $error = $ex->getMessage();
+                DB::rollback();
+            }
+        }
+
+        if ($success == 1) 
+        {
+            return $success;
+        }
+        else
+        {
+            return $error;
+        }
+    }
+    
+    public function crear_rol_sistema(Request $request)
+    {
+        if($request->ajax())
+        {
+            $error = null;
+
+            DB::beginTransaction();
+            try{
+                
+                DB::table('permisos.tblsistemasrol_sro')->insert([
+                    'sist_id' => $request['sist_id'],
+                    'sro_descripcion' => strtoupper(trim($request['sro_descripcion'])),
+                ]);
+                $success = 1;
+                
+                DB::commit();
+            } catch (\Exception $ex) {
+                $success = 2;
+                $error = $ex->getMessage();
+                DB::rollback();
+            }
+        }
+
+        if ($success == 1) 
+        {
+            return $success;
+        }
+        else
+        {
+            return $error;
+        } 
     }
 }

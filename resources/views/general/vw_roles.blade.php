@@ -77,6 +77,9 @@
                                         <div class="form-group">
                                             <button type="button" id="btn_agregar_menus_rol" class="btn btn-warning rounded-circle"><i class="fa fa-pencil-square-o fa-4x"></i></button>                                                                 
                                         </div>
+                                        <div class="form-group">
+                                            <button type="button" id="btn_orden_menu_rol" class="btn btn-warning rounded-circle"><i class="fa fa-list-ol fa-4x"></i></button>                                                                 
+                                        </div>
                                     </div>
                                     <div class="col-md-10 text-center">
                                         <div class="form-group">
@@ -99,6 +102,9 @@
                                     <div class="col-md-2 text-center align-self-center">
                                         <div class="form-group">
                                             <button type="button" id="btn_agregar_submenus_rol" class="btn btn-danger rounded-circle"><i class="fa fa-pencil-square-o fa-4x"></i></button>                                                                 
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" id="btn_orden_submenu_rol" class="btn btn-danger rounded-circle"><i class="fa fa-list-ol fa-4x"></i></button>                                                                 
                                         </div>
                                     </div>
                                     <div class="col-md-10 tblsubmenu_sme">
@@ -225,6 +231,125 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalOrdenarMenu">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span></button>
+            </div>
+            
+            <form id="FormularioOrdenMenu" name="FormularioOrdenMenu" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">TITULO</th>
+                                    <th scope="col">DESCRIPCION</th>
+                                    <th scope="col">ORDEN</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detalle_orden_menu">
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" id="btn_editar_orden_menu" class="btn btn-primary btn-xl"><i class="fa fa-pencil-square"></i> MODIFICAR</button>
+                <button type="button" id="btn_cerrar_modal_orden_menu" class="btn btn-danger btn-xl" data-dismiss="modal"><i class="fa fa-times-rectangle-o"></i> CERRAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalOrdenarSubmenu">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span></button>
+            </div>
+            
+            <form id="FormularioOrdenSubMenu" name="FormularioOrdenSubMenu" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">TITULO</th>
+                                    <th scope="col">DESCRIPCION</th>
+                                    <th scope="col">ORDEN</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detalle_orden_submenu">
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" id="btn_editar_orden_submenu" class="btn btn-primary btn-xl"><i class="fa fa-pencil-square"></i> MODIFICAR</button>
+                <button type="button" id="btn_cerrar_modal_orden_submenu" class="btn btn-danger btn-xl" data-dismiss="modal"><i class="fa fa-times-rectangle-o"></i> CERRAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalCrearRol">
+    <div class="modal-dialog modal-xs modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>SISTEMA SELECCIONADO:</label>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-tasks"></i></span>
+                        </div>
+                        <input type="text" id="txt_sro_sist_id" class="form-control text-center" disabled="disabled">
+                    </div>
+
+                </div>
+                
+                <div class="form-group">
+                    <label>DESCRIPCION ROL:</label>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-tasks"></i></span>
+                        </div>
+                        <input type="text" id="txt_sro_descripcion" class="form-control text-center text-uppercase" placeholder="ESCRIBIR DESCRIPCION ROL" maxlength="80">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btn_crear_rol" class="btn btn-success btn-xl"><i class="fa fa-plus-square"></i> CREAR</button>
+                <button type="button" id="btn_cerrar_modal_crear_rol" class="btn btn-danger btn-xl" data-dismiss="modal"><i class="fa fa-times-rectangle-o"></i> CERRAR</button>
             </div>
         </div>
     </div>

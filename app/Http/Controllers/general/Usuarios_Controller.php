@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Tblusuariomenu_ume;
+use App\Http\Models\Tblusuariosubmenu_usm;
 
 class Usuarios_Controller extends Controller
 {
@@ -137,6 +138,9 @@ class Usuarios_Controller extends Controller
             {
                 $Tblusuariomenu_ume = new Tblusuariomenu_ume;
                 $Tblusuariomenu_ume::where([['ume_usuario',"=",$request['usuario']],['sist_id',"=",$request['new_sist_id']]])->delete();
+                
+                $Tblusuariosubmenu_usm = new Tblusuariosubmenu_usm;
+                $Tblusuariosubmenu_usm::where([['usm_usuario',"=",$request['usuario']],['sist_id',"=",$request['new_sist_id']]])->delete();
                 return 1;
             } 
             else 
@@ -494,8 +498,8 @@ class Usuarios_Controller extends Controller
         if ($start < 0) {
             $start = 0;
         }
-        $totalg = DB::select("select count(*) as total from permisos.vw_rol_submenu_usuario where sro_id = ".$request['sro_id']." and ume_usuario = '".$request['usuario']."' and men_id = ".$request['men_id']." and sist_id = ".$request['sist_id']." ");
-        $sql = DB::select("select * from permisos.vw_rol_submenu_usuario where sro_id = ".$request['sro_id']." and ume_usuario = '".$request['usuario']."' and men_id = ".$request['men_id']." and sist_id = ".$request['sist_id']." order by ".$sidx." ".$sord." limit ".$limit." offset ".$start);
+        $totalg = DB::select("select count(*) as total from permisos.vw_rol_submenu_usuario where sro_id = ".$request['sro_id']." and usm_usuario = '".$request['usuario']."' and men_id = ".$request['men_id']." and sist_id = ".$request['sist_id']." ");
+        $sql = DB::select("select * from permisos.vw_rol_submenu_usuario where sro_id = ".$request['sro_id']." and usm_usuario = '".$request['usuario']."' and men_id = ".$request['men_id']." and sist_id = ".$request['sist_id']." order by ".$sidx." ".$sord." limit ".$limit." offset ".$start);
 
         $total_pages = 0;
         if (!$sidx) {
@@ -513,10 +517,10 @@ class Usuarios_Controller extends Controller
         $Lista->total = $total_pages;
         $Lista->records = $count;
         foreach ($sql as $Index => $Datos) {
-            $Lista->rows[$Index]['id'] = $Datos->ume_id;            
+            $Lista->rows[$Index]['id'] = $Datos->usm_id;            
             $Lista->rows[$Index]['cell'] = array(
-                trim($Datos->ume_id),
-                trim($Datos->ume_usuario),
+                trim($Datos->usm_id),
+                trim($Datos->usm_usuario),
                 trim($Datos->sro_id),
                 trim($Datos->men_id),
                 trim($Datos->sist_id),

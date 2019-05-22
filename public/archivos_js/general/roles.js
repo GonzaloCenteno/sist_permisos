@@ -4,13 +4,14 @@ jQuery(document).ready(function($){
         datatype: 'json', mtype: 'GET',
         height: '550px', autowidth: true,
         toolbarfilter: true,
-        colNames: ['ID', 'DESCRIPCION', 'RUTA', 'ESTADO', 'AGREGAR'],
+        colNames: ['ID', 'DESCRIPCION', 'RUTA', 'ESTADO', 'AGREGAR ROLES','AGREGAR MENUS'],
         rowNum: 10, sortname: 'sist_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE SISTEMAS', align: "center",
         colModel: [
             {name: 'sist_id', index: 'sist_id', align: 'center',width: 50, hidden:true},
             {name: 'sist_desc', index: 'sist_desc', align: 'left', width: 50},
             {name: 'sist_rut', index: 'sist_rut', align: 'left', width: 40},
             {name: 'sist_est', index: 'sist_est', align: 'left', width: 10},
+            {name: 'roles', index: 'roles', align: 'center', width: 10,sortable: false},
             {name: 'agregar', index: 'agregar', align: 'center', width: 10,sortable: false}
         ],
         pager: '#paginador_tblsistemas_sist',
@@ -61,7 +62,7 @@ jQuery(document).ready(function($){
         height: 'auto', autowidth: false,
         toolbarfilter: true,
         colNames: ['ID', 'MEN_ID', 'DESCRIPCION', 'TITULO', 'SISTEMA'],
-        rowNum: 100, sortname: 'rme_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
+        rowNum: 100, sortname: 'rme_orden', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
         colModel: [
             {name: 'rme_id', index: 'rme_id', align: 'center',width: 50, hidden:true},
             {name: 'men_id', index: 'men_id', align: 'center', width: 50, hidden:true},
@@ -97,7 +98,7 @@ jQuery(document).ready(function($){
         height: 'auto', autowidth: false,
         toolbarfilter: true,
         colNames: ['ID', 'SME_ID', 'MEN_ID', 'SIST_ID', 'SRO_ID', 'TITULO', 'VER', 'CREAR', 'EDITAR', 'ELIMINAR', 'IMPRIMIR'],
-        rowNum: 100, sortname: 'rms_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE SUB-MENUS', align: "center",
+        rowNum: 100, sortname: 'rms_orden', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE SUB-MENUS', align: "center",
         colModel: [
             {name: 'rms_id', index: 'rms_id', align: 'center',width: 10, hidden:true},
             {name: 'sme_id', index: 'sme_id', align: 'center', width: 10, hidden:true},
@@ -297,13 +298,10 @@ jQuery(document).on("click", "#btn_agregar_menus_rol", function(){
         columnClass: 'medium',
         closeIcon: true,
         theme:'material',
-        content: '' +
-                '<div class="row">'+
-                    '<div class="col-md-12 tblselectmenu">'+
-                        '<div class="form-group">'+
-                            '<table id="tblselectmenu"></table>'+
-                            '<div id="paginador_tblselectmenu"></div>'+                                                                  
-                        '</div>'+
+        content:'<div class="col-md-12 tblselectmenu">'+
+                    '<div class="form-group">'+
+                        '<table id="tblselectmenu"></table>'+
+                        '<div id="paginador_tblselectmenu"></div>'+                                                                  
                     '</div>'+
                 '</div>',
         onOpen: function () 
@@ -319,7 +317,7 @@ jQuery(document).on("click", "#btn_agregar_menus_rol", function(){
                 rowNum: 100, sortname: 'men_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
                 colModel: [
                     {name: 'men_id', index: 'men_id', align: 'center',width: 50, hidden:true},
-                    {name: 'men_titulo', index: 'men_titulo', align: 'center', width: 350},
+                    {name: 'men_titulo', index: 'men_titulo', align: 'center', width: 367},
                     {name: 'marcas', index: 'marcas', align: 'center', width: 120}
                 ],
                 pager: '#paginador_tblselectmenu',
@@ -493,13 +491,10 @@ jQuery(document).on("click", "#btn_agregar_submenus_rol", function(){
         columnClass: 'medium',
         closeIcon: true,
         theme:'material',
-        content: '' +
-                '<div class="row">'+
-                    '<div class="col-md-12 tblselectsubmenu">'+
-                        '<div class="form-group">'+
-                            '<table id="tblselectsubmenu"></table>'+
-                            '<div id="paginador_tblselectsubmenu"></div>'+                                                                  
-                        '</div>'+
+        content:'<div class="col-md-12 tblselectsubmenu">'+
+                    '<div class="form-group">'+
+                        '<table id="tblselectsubmenu"></table>'+
+                        '<div id="paginador_tblselectsubmenu"></div>'+                                                                  
                     '</div>'+
                 '</div>',
         onOpen: function () 
@@ -517,7 +512,7 @@ jQuery(document).on("click", "#btn_agregar_submenus_rol", function(){
                 rowNum: 100, sortname: 'sme_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE SUB-MENUS', align: "center",
                 colModel: [
                     {name: 'sme_id', index: 'sme_id', align: 'center',width: 50, hidden:true},
-                    {name: 'sme_titulo', index: 'sme_titulo', align: 'center', width: 350},
+                    {name: 'sme_titulo', index: 'sme_titulo', align: 'center', width: 367},
                     {name: 'marcass', index: 'marcass', align: 'center', width: 120}
                 ],
                 pager: '#paginador_tblselectsubmenu',
@@ -620,3 +615,213 @@ function fn_crear_submenus_rol(id,opcion)
         });
     }
 }
+
+//ORDENAR MENUS
+jQuery(document).on("click", "#btn_orden_menu_rol", function(){
+    sist_id = $('#tblsistemas_sist').jqGrid ('getGridParam', 'selrow');
+    sro_id = $('#tblroles_rol').jqGrid ('getGridParam', 'selrow');
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: 'roles/0?show=traer_datos_menu',
+        type: 'GET',
+        data:
+        {
+            sist_id:sist_id,
+            sro_id:sro_id
+        },
+        beforeSend:function()
+        {            
+            MensajeEspera('CARGANDO INFORMACION');  
+        },
+        success: function(data) 
+        {
+            html = '';
+            OrdenMenu = $('#ModalOrdenarMenu').modal({backdrop: 'static', keyboard: false});
+            OrdenMenu.find('.modal-title').text('ORDENAR MENU');
+            for(i=0;i<data.length;i++)
+            {
+                html  = html +  '<tr>'+
+                                    '<td><input type="hidden" name="contador[]"><input type="hidden" value='+data[i].rme_id+' name="rme_id[]" >'+data[i].men_titulo+'</td>'+
+                                    '<td>'+data[i].men_descripcion+'</td>'+
+                                    '<th scope="row"><input type="text" name="rme_orden[]" class="form-control text-center" value='+data[i].rme_orden+' placeholder="N° ORDEN" onkeypress="return soloNumeroTab(event);"></th>'+
+                                '</tr>';
+            }
+            $("#detalle_orden_menu").html(html);
+            swal.close();
+        },
+        error: function(data) {
+            MensajeAdvertencia("hubo un error, Comunicar al Administrador");
+            console.log('error');
+            console.log(data);
+        }
+    });
+});
+
+jQuery(document).on("click", "#btn_editar_orden_menu", function(){
+    sist_id = $('#tblsistemas_sist').jqGrid ('getGridParam', 'selrow');
+    sro_id = $('#tblroles_rol').jqGrid ('getGridParam', 'selrow');
+
+    var form = new FormData($("#FormularioOrdenMenu")[0]);
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: 'roles?tipo=1',
+        type: 'POST',
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        data:form,
+        success: function (data) 
+        {
+            if (data == 1) 
+            {
+                MensajeConfirmacion('EL RESPUESTA FUE ENVIADA CON EXITO');
+                jQuery("#tblmenu_men").jqGrid('setGridParam', {url: 'roles/0?tabla=menus&sro_id='+sro_id+'&sist_id='+sist_id}).trigger('reloadGrid');
+                $('#btn_cerrar_modal_orden_menu').click();
+            }
+            else
+            {
+                MensajeAdvertencia('NO SE PUDO ENVIAR LA RESPUESTA');
+                console.log(data);
+            }
+        },
+        error: function(data) {
+            MensajeAdvertencia("hubo un error, Comunicar al Administrador");
+            console.log('error');
+            console.log(data);
+        }
+    });
+});
+
+//ORDENAR SUBMENUS
+jQuery(document).on("click", "#btn_orden_submenu_rol", function(){
+    sist_id = $('#tblsistemas_sist').jqGrid ('getGridParam', 'selrow');
+    sro_id = $('#tblroles_rol').jqGrid ('getGridParam', 'selrow');
+    rme_id = $('#tblmenu_men').jqGrid ('getGridParam', 'selrow');
+
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: 'roles/0?show=traer_datos_submenu',
+        type: 'GET',
+        data:
+        {
+            sist_id:sist_id,
+            sro_id:sro_id,
+            men_id:$('#tblmenu_men').jqGrid ('getCell', rme_id, 'men_id')
+        },
+        beforeSend:function()
+        {            
+            MensajeEspera('CARGANDO INFORMACION');  
+        },
+        success: function(data) 
+        {
+            html = '';
+            OrdenSubMenu = $('#ModalOrdenarSubmenu').modal({backdrop: 'static', keyboard: false});
+            OrdenSubMenu.find('.modal-title').text('ORDENAR SUB-MENU');
+            for(i=0;i<data.length;i++)
+            {
+                html  = html +  '<tr>'+
+                                    '<td><input type="hidden" name="contador1[]"><input type="hidden" value='+data[i].rms_id+' name="rms_id[]" >'+data[i].sme_titulo+'</td>'+
+                                    '<td>'+data[i].sme_descripcion+'</td>'+
+                                    '<th scope="row"><input type="text" name="rms_orden[]" class="form-control text-center" value='+data[i].rms_orden+' placeholder="N° ORDEN" onkeypress="return soloNumeroTab(event);"></th>'+
+                                '</tr>';
+            }
+            $("#detalle_orden_submenu").html(html);
+            swal.close();
+        },
+        error: function(data) {
+            MensajeAdvertencia("hubo un error, Comunicar al Administrador");
+            console.log('error');
+            console.log(data);
+        }
+    });
+});
+
+jQuery(document).on("click", "#btn_editar_orden_submenu", function(){
+    sist_id = $('#tblsistemas_sist').jqGrid ('getGridParam', 'selrow');
+    sro_id = $('#tblroles_rol').jqGrid ('getGridParam', 'selrow');
+    rme_id = $('#tblmenu_men').jqGrid ('getGridParam', 'selrow');
+
+    var form = new FormData($("#FormularioOrdenSubMenu")[0]);
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: 'roles?tipo=2',
+        type: 'POST',
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        data:form,
+        success: function (data) 
+        {
+            if (data == 1) 
+            {
+                MensajeConfirmacion('EL RESPUESTA FUE ENVIADA CON EXITO');
+                jQuery("#tblsubmenu_sme").jqGrid('setGridParam', {url: 'roles/0?tabla=submenus&men_id='+$('#tblmenu_men').jqGrid ('getCell', rme_id, 'men_id')+'&sist_id='+sist_id+'&sro_id='+sro_id}).trigger('reloadGrid');    
+                $('#btn_cerrar_modal_orden_submenu').click();
+            }
+            else
+            {
+                MensajeAdvertencia('NO SE PUDO ENVIAR LA RESPUESTA');
+                console.log(data);
+            }
+        },
+        error: function(data) {
+            MensajeAdvertencia("hubo un error, Comunicar al Administrador");
+            console.log('error');
+            console.log(data);
+        }
+    });
+});
+
+//AGREGAR ROLES
+jQuery(document).on("click", "#btn_agregar_roles", function(){
+    sist_id = $('#tblsistemas_sist').jqGrid ('getGridParam', 'selrow');
+    CrearRolSistema = $('#ModalCrearRol').modal({backdrop: 'static', keyboard: false});
+    CrearRolSistema.find('.modal-title').text('CREAR ROL');
+    $("#txt_sro_sist_id").val($('#tblsistemas_sist').jqGrid ('getCell', sist_id, 'sist_desc'));
+    $("#txt_sro_descripcion").val('');
+    setTimeout(function (){
+        $('#txt_sro_descripcion').focus();
+    }, 200);
+});
+
+jQuery(document).on("click", "#btn_crear_rol", function(){
+    sist_id = $('#tblsistemas_sist').jqGrid ('getGridParam', 'selrow');
+    if ($('#txt_sro_descripcion').val() == '') {
+        mostraralertasconfoco('* EL CAMPO DESCRIPCION ES OBLIGATORIO...', '#txt_sro_descripcion');
+        return false;
+    }
+    
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: 'roles/create',
+        type: 'GET',
+        data:
+        {
+            sist_id:sist_id,
+            sro_descripcion:$('#txt_sro_descripcion').val(),
+            tipo:5
+        },
+        beforeSend:function()
+        {            
+            MensajeEspera('ENVIANDO INFORMACION');  
+        },
+        success: function(data) 
+        {
+            if (data == 1) 
+            {
+                MensajeConfirmacion('EL RESPUESTA FUE ENVIADA CON EXITO');
+                $("#txt_sro_descripcion").val('');
+            }
+            else
+            {
+                MensajeAdvertencia('NO SE PUDO ENVIAR LA RESPUESTA');
+                console.log(data);
+            }
+        },
+        error: function(data) {
+            MensajeAdvertencia("hubo un error, Comunicar al Administrador");
+            console.log('error');
+            console.log(data);
+        }
+    });
+});

@@ -64,7 +64,7 @@ jQuery(document).ready(function($){
         colModel: [
             {name: 'sist_id', index: 'sist_id', align: 'center',width: 50, hidden:true},
             {name: 'sist_desc', index: 'sist_desc', align: 'left', width: 115},
-            {name: 'sist_rut', index: 'sist_rut', align: 'left', width: 159},
+            {name: 'sist_rut', index: 'sist_rut', align: 'left', width: 157},
             {name: 'usuario', index: 'usuario', align: 'left', width: 10,hidden:true}
         ],
         pager: '#paginador_tablaSistemas',
@@ -91,7 +91,7 @@ jQuery(document).ready(function($){
         rowNum: 10, sortname: 'sro_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE ROLES', align: "center",
         colModel: [
             {name: 'sro_id', index: 'sro_id', align: 'center',width: 60,hidden:true},
-            {name: 'sro_descripcion', index: 'sro_descripcion', align: 'center', width: 274}
+            {name: 'sro_descripcion', index: 'sro_descripcion', align: 'center', width: 272}
         ],
         pager: '#paginador_tablaRoles',
         rowList: [10, 20, 30, 40, 50],
@@ -120,11 +120,11 @@ jQuery(document).ready(function($){
         height: 'auto', autowidth: false,
         toolbarfilter: true,
         colNames: ['ID', 'TITULO','DESCRIPCION','MENU SISTEMA'],
-        rowNum: 100, sortname: 'men_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
+        rowNum: 100, sortname: 'ume_orden', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
         colModel: [
             {name: 'men_id', index: 'men_id', align: 'center',width: 50,hidden:true},
             {name: 'men_titulo', index: 'men_titulo', align: 'left', width: 170},
-            {name: 'men_descripcion', index: 'men_descripcion', align: 'left', width: 242},
+            {name: 'men_descripcion', index: 'men_descripcion', align: 'left', width: 238},
             {name: 'men_sistema', index: 'men_sistema', align: 'left', width: 180}
         ],
         pager: '#paginador_tablaMenus',
@@ -158,14 +158,14 @@ jQuery(document).ready(function($){
         height: 'auto', autowidth: false,
         toolbarfilter: true,
         colNames: ['ID', 'USUARIO', 'SRO_ID', 'MEN_ID', 'SIST_ID', 'TITULO', 'VER', 'CREAR', 'EDITAR', 'ELIMINAR', 'IMPRIMIR'],
-        rowNum: 100, sortname: 'ume_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
+        rowNum: 100, sortname: 'usm_orden', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
         colModel: [
             {name: 'ume_id', index: 'ume_id', align: 'center',width: 20,hidden:true},
             {name: 'ume_usuario', index: 'ume_usuario', align: 'left', width: 20,hidden:true},
             {name: 'sro_id', index: 'sro_id', align: 'left', width: 20,hidden:true},
             {name: 'men_id', index: 'men_id', align: 'left', width: 20,hidden:true},
             {name: 'sist_id', index: 'sist_id', align: 'left', width: 20,hidden:true},
-            {name: 'sme_titulo', index: 'sme_titulo', align: 'left', width: 182},
+            {name: 'sme_titulo', index: 'sme_titulo', align: 'left', width: 178},
             {name: 'btn_view', index: 'btn_view', align: 'center', width: 82,
             formatter:function (cellvalue, options, rowObject) 
             {
@@ -313,13 +313,10 @@ function btn_asginar_sistemas_rol(usuario,dn)
         columnClass: 'medium',
         closeIcon: true,
         theme:'material',
-        content: '' +
-                '<div class="row">'+
-                    '<div class="col-md-12 tblAsignarSistemas">'+
-                        '<div class="form-group">'+
-                            '<table id="tblAsignarSistemas"></table>'+
-                            '<div id="paginador_tblAsignarSistemas"></div>'+                                                                  
-                        '</div>'+
+        content:'<div class="col-md-12 tblAsignarSistemas">'+
+                    '<div class="form-group">'+
+                        '<table id="tblAsignarSistemas"></table>'+
+                        '<div id="paginador_tblAsignarSistemas"></div>'+                                                                  
                     '</div>'+
                 '</div>',
         onOpen: function () 
@@ -333,7 +330,7 @@ function btn_asginar_sistemas_rol(usuario,dn)
                 rowNum: 100, sortname: 'sist_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE SISTEMAS', align: "center",
                 colModel: [
                     {name: 'sist_id', index: 'sist_id', align: 'center',width: 10, hidden:true},
-                    {name: 'sist_desc', index: 'sist_desc', align: 'left', width: 190},
+                    {name: 'sist_desc', index: 'sist_desc', align: 'left', width: 177},
                     {name: 'sist_rut', index: 'sist_rut', align: 'left', width: 150},
                     {name: 'marcas', index: 'marcas', align: 'center', width: 80},
                     {name: 'roles', index: 'roles', align: 'center', width: 80}
