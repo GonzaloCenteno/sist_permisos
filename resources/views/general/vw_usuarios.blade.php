@@ -10,8 +10,10 @@
 <br>
 <div class="card card-danger card-outline">
     <div class="card-header">
-        <h4 class="m-0">MANTENIMIENTO USUARIOS</h4>
-
+        <div class="row">
+            <h3 class="m-0">MANTENIMIENTO USUARIOS</h3>&nbsp;&nbsp;&nbsp;
+            <button type="button" onclick="window.close();" class="btn btn-danger"><i class="fa fa-reply"></i> REGRESAR</button>
+        </div>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
@@ -101,7 +103,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-12 text-center">
+                                    <div class="col-md-12 text-center tablaMenus">
                                         <div class="form-group"> 
                                             <table id="tablaMenus"></table>
                                             <div id="paginador_tablaMenus"></div>                                                                   

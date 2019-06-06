@@ -61,14 +61,15 @@ jQuery(document).ready(function($){
         datatype: 'json', mtype: 'GET',
         height: 'auto', autowidth: false,
         toolbarfilter: true,
-        colNames: ['ID', 'MEN_ID', 'DESCRIPCION', 'TITULO', 'SISTEMA'],
+        colNames: ['ID', 'MEN_ID','VER', 'TITULO', 'DESCRIPCION', 'SISTEMA'],
         rowNum: 100, sortname: 'rme_orden', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
         colModel: [
             {name: 'rme_id', index: 'rme_id', align: 'center',width: 50, hidden:true},
             {name: 'men_id', index: 'men_id', align: 'center', width: 50, hidden:true},
-            {name: 'men_descripcion', index: 'men_descripcion', align: 'left', width: 280},
-            {name: 'men_titulo', index: 'men_titulo', align: 'left', width: 230},
-            {name: 'men_sistema', index: 'men_sistema', align: 'left', width: 156}
+            {name: 'marcas', index: 'marcas', align: 'center', width: 80},
+            {name: 'men_titulo', index: 'men_titulo', align: 'left', width: 210},
+            {name: 'men_descripcion', index: 'men_descripcion', align: 'left', width: 240},
+            {name: 'men_sistema', index: 'men_sistema', align: 'left', width: 136}
         ],
         pager: '#paginador_tblmenu_men',
         rowList: [],       
@@ -193,7 +194,8 @@ function cambiar_estado_permiso(rms_id,columna,valor)
         data:
         {
             columna:columna,
-            valor:valor
+            valor:valor,
+            tipo:1
         },
         beforeSend:function()
         {            
@@ -387,6 +389,7 @@ function fn_crear_menus_rol(id,opcion)
             {
                 men_id:id,
                 sro_id:sro_id,
+                sist_id:sist_id,
                 tipo:2
             },
             beforeSend:function()
@@ -584,6 +587,7 @@ function fn_crear_submenus_rol(id,opcion)
                 sro_id:sro_id,
                 men_id:$('#tblmenu_men').jqGrid ('getCell', men_id, 'men_id'),
                 sme_id:id,
+                sist_id:sist_id,
                 tipo:4
             },
             beforeSend:function()
@@ -825,3 +829,44 @@ jQuery(document).on("click", "#btn_crear_rol", function(){
         }
     });
 });
+
+function fn_cambiar_estado_menu_roles(rme_id,estado)
+{
+    sist_id = $('#tblsistemas_sist').jqGrid ('getGridParam', 'selrow');
+    sro_id = $('#tblroles_rol').jqGrid ('getGridParam', 'selrow');
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: 'roles/'+rme_id+'/edit',
+        type: 'GET',
+        data:
+        {
+            estado:estado,
+            tipo:2
+        },
+        beforeSend:function()
+        {            
+            $('.tablaMenus').block({ 
+                message: '<h1>PROCESANDO INFORMACION</h1>', 
+                css: { border: '5px solid #a00',width: '300px' } 
+            }); 
+        },
+        success: function(data) 
+        { 
+            if (data == 1) 
+            { 
+                jQuery("#tblmenu_men").jqGrid('setGridParam', {url: 'roles/0?tabla=menus&sro_id='+sro_id+'&sist_id='+sist_id}).trigger('reloadGrid');
+                $('.tablaMenus').unblock();
+            }
+            else
+            {
+                MensajeAdvertencia('NO SE PUDO ENVIAR LA RESPUESTA');
+                console.log(data);
+            }
+        },
+        error: function(data) {
+            MensajeAdvertencia("hubo un error, Comunicar al Administrador");
+            console.log('error');
+            console.log(data);
+        }
+    });
+}

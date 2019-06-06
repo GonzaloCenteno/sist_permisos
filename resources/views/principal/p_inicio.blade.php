@@ -70,6 +70,9 @@
               .fa-check-square-o{
                   cursor: pointer;
               }
+              .marcador{
+                  cursor: pointer;
+              }
         </style>
     </head>
     <body class="hold-transition sidebar-mini" id="body_push">

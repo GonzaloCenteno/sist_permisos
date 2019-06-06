@@ -11,8 +11,16 @@
 |
 */
 
+Route::post('login', 'Auth\LoginController@login')->name('login');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+Auth::routes();
+
+Route::get('$',function(){ echo 0;});
+
 Route::group(['namespace' => 'general'], function() 
 {
+    Route::get('/', 'Inicio_Controller@index');
     Route::resource('roles', 'Roles_Controller');
     Route::resource('usuarios', 'Usuarios_Controller');
 });

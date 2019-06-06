@@ -14,7 +14,7 @@ class Usuarios_Controller extends Controller
     public function conexion_ldap()
     {
         $ldap_dn = "CN=gcenteno,OU=sistemas,OU=Administrativos,OU=Cromotex_Usuarios,OU=Transportes Cromotex,DC=cromotex,DC=com,DC=pe";
-        $ldap_password = "Abril2019";
+        $ldap_password = "Mayo2019";
 
         return response()->json([
             'ldap_dn' => $ldap_dn,
@@ -82,35 +82,16 @@ class Usuarios_Controller extends Controller
         }
     }
 
-    public function edit($ume_id,Request $request)
+    public function edit($id,Request $request)
     {
-        if($request->ajax())
+        if ($request['tipo'] == 1) 
         {
-            $error = null;
-
-            DB::beginTransaction();
-            try{
-                $Tblusuariomenu_ume = new Tblusuariomenu_ume;
-                $Tblusuariomenu_ume::where('ume_id',$ume_id)->update([
-                    $request['columna'] => $request['valor'],
-                ]);
-                $success = 1;
-                DB::commit();
-            } catch (\Exception $ex) {
-                $success = 2;
-                $error = $ex->getMessage();
-                DB::rollback();
-            }
+            return $this->editar_estados_submenu($id,$request);
         }
-
-        if ($success == 1) 
+        if ($request['tipo'] == 2) 
         {
-            return $success;
+            return $this->editar_estados_menu($id,$request);
         }
-        else
-        {
-            return $error;
-        } 
     }
 
     public function destroy(Request $request)
@@ -342,9 +323,18 @@ class Usuarios_Controller extends Controller
         $Lista->total = $total_pages;
         $Lista->records = $count;
         foreach ($sql as $Index => $Datos) {
-            $Lista->rows[$Index]['id'] = $Datos->men_id;            
+            $Lista->rows[$Index]['id'] = $Datos->men_id;
+            if($Datos->ume_estado == 1)
+            {
+                $marcas = '<i style="width:100%" class="fa fa-check-square-o fa-3x" aria-hidden="true" onclick="fn_cambiar_estado_menu('.$Datos->ume_id.',0)"></i>';
+            }
+            else
+            {
+                $marcas = '<i style="width:100%" class="fa fa-square-o fa-3x" aria-hidden="true" onclick="fn_cambiar_estado_menu('.$Datos->ume_id.',1)"></i>';
+            }
             $Lista->rows[$Index]['cell'] = array(
                 trim($Datos->men_id),
+                $marcas,
                 trim($Datos->men_titulo),
                 trim($Datos->men_descripcion),
                 trim($Datos->men_sistema),
@@ -533,6 +523,78 @@ class Usuarios_Controller extends Controller
             );
         }
         return response()->json($Lista);
+    }
+    
+    public function editar_estados_submenu($usm_id,Request $request)
+    {
+        if($request->ajax())
+        {
+            $error = null;
+
+            DB::beginTransaction();
+            try{
+                $Tblusuariosubmenu_usm = new Tblusuariosubmenu_usm;
+                $Tblusuariosubmenu_usm::where('usm_id',$usm_id)->update([
+                    $request['columna'] => $request['valor'],
+                ]);
+                $success = 1;
+                DB::commit();
+            } catch (\Exception $ex) {
+                $success = 2;
+                $error = $ex->getMessage();
+                DB::rollback();
+            }
+        }
+
+        if ($success == 1) 
+        {
+            return $success;
+        }
+        else
+        {
+            return $error;
+        } 
+    }
+    
+    public function editar_estados_menu($ume_id,Request $request)
+    {
+        if($request->ajax())
+        {
+            $error = null;
+
+            DB::beginTransaction();
+            try{
+                $Tblusuariomenu_ume = new Tblusuariomenu_ume;
+                $Tblusuariosubmenu_usm = new Tblusuariosubmenu_usm;
+                
+                $detalle = $Tblusuariomenu_ume::where("ume_id","=",$ume_id)->first();
+                if($detalle)
+                {
+                    $detalle->ume_estado = $request['estado'];
+                    $detalle->save();
+                }
+                
+                $Tblusuariosubmenu_usm::where([['usm_usuario',$detalle->ume_usuario],['sro_id',$detalle->sro_id],['men_id',$detalle->men_id]])->update([
+                    'btn_view' => $detalle->ume_estado,
+                ]);
+                
+                $success = 1;
+                DB::commit();
+            } catch (\Exception $ex) {
+                $success = 2;
+                $error = $ex->getMessage();
+                DB::rollback();
+            }
+        }
+
+        if ($success == 1) 
+        {
+            return $success;
+        }
+        else
+        {
+            return $error;
+        } 
     }
     
 }

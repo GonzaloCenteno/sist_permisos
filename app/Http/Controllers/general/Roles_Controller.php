@@ -9,6 +9,8 @@ use App\Http\Models\Tblsubmenu_sme;
 use App\Http\Models\Tblmenu_men;
 use App\Http\Models\Tblrolmenu_rme;
 use App\Http\Models\Tblrolmenusubmenu_rms;
+use App\Http\Models\Tblusuariosubmenu_usm;
+use App\Http\Models\Tblusuariomenu_ume;
 
 class Roles_Controller extends Controller
 {
@@ -90,35 +92,16 @@ class Roles_Controller extends Controller
         }
     }
 
-    public function edit($rms_id,Request $request)
+    public function edit($id,Request $request)
     {
-        if($request->ajax())
+        if ($request['tipo'] == 1) 
         {
-            $error = null;
-
-            DB::beginTransaction();
-            try{
-                $Tblrolmenusubmenu_rms = new Tblrolmenusubmenu_rms;
-                $Tblrolmenusubmenu_rms::where('rms_id',$rms_id)->update([
-                    $request['columna'] => $request['valor'],
-                ]);
-                $success = 1;
-                DB::commit();
-            } catch (\Exception $ex) {
-                $success = 2;
-                $error = $ex->getMessage();
-                DB::rollback();
-            }
+            return $this->editar_submenu_rol($id,$request);
         }
-
-        if ($success == 1) 
+        if ($request['tipo'] == 2) 
         {
-            return $success;
+            return $this->editar_menu_rol($id,$request);
         }
-        else
-        {
-            return $error;
-        }  
     }
 
     public function destroy(Request $request)
@@ -258,12 +241,21 @@ class Roles_Controller extends Controller
         $Lista->total = $total_pages;
         $Lista->records = $count;
         foreach ($sql as $Index => $Datos) {
-            $Lista->rows[$Index]['id'] = $Datos->rme_id;            
+            $Lista->rows[$Index]['id'] = $Datos->rme_id;    
+            if($Datos->rme_estado == 1)
+            {
+                $marcas = '<i style="width:100%" class="fa fa-check-square-o fa-3x" aria-hidden="true" onclick="fn_cambiar_estado_menu_roles('.$Datos->rme_id.',0)"></i>';
+            }
+            else
+            {
+                $marcas = '<i style="width:100%" class="fa fa-square-o fa-3x" aria-hidden="true" onclick="fn_cambiar_estado_menu_roles('.$Datos->rme_id.',1)"></i>';
+            }
             $Lista->rows[$Index]['cell'] = array(
                 trim($Datos->rme_id),
                 trim($Datos->men_id),
-                trim($Datos->men_descripcion),
+                $marcas,
                 trim($Datos->men_titulo),
+                trim($Datos->men_descripcion),
                 trim($Datos->men_sistema),
             );
         }
@@ -411,12 +403,24 @@ class Roles_Controller extends Controller
             DB::beginTransaction();
             try{
                 $Tblrolmenu_rme = new Tblrolmenu_rme;
-                $Tblrolmenu_rme->insert([
-                    'sro_id' => $request['sro_id'],
-                    'men_id' => $request['men_id']
-                ]);
-                $success = 1;
+                $Tblusuariomenu_ume = new Tblusuariomenu_ume;
+                $Tblrolmenu_rme->sro_id = $request['sro_id'];
+                $Tblrolmenu_rme->men_id = $request['men_id'];
+                $Tblrolmenu_rme->save();
                 
+                $datos = $Tblusuariomenu_ume::select(DB::raw('distinct ume_usuario,sist_id'))->where([['sro_id',$request['sro_id']],['sist_id',$request['sist_id']]])->get();
+                for($i = 0; $i < $datos->count();$i++)
+                {
+                    $Tblusuariomenu_ume->insert([
+                        'ume_usuario' => $datos[$i]->ume_usuario,
+                        'sist_id' => $datos[$i]->sist_id,
+                        'sro_id' => $request['sro_id'],
+                        'men_id' => $request['men_id'],
+                        'rme_id' => $Tblrolmenu_rme->rme_id
+                    ]);
+                }
+                
+                $success = 1;
                 DB::commit();
             } catch (\Exception $ex) {
                 $success = 2;
@@ -529,13 +533,28 @@ class Roles_Controller extends Controller
             DB::beginTransaction();
             try{
                 $Tblrolmenusubmenu_rms = new Tblrolmenusubmenu_rms;
-                $Tblrolmenusubmenu_rms->insert([
-                    'sro_id' => $request['sro_id'],
-                    'men_id' => $request['men_id'],
-                    'sme_id' => $request['sme_id']
-                ]);
-                $success = 1;
+                $Tblusuariosubmenu_usm = new Tblusuariosubmenu_usm;
                 
+                $Tblrolmenusubmenu_rms->sro_id = $request['sro_id'];
+                $Tblrolmenusubmenu_rms->men_id = $request['men_id'];
+                $Tblrolmenusubmenu_rms->sme_id = $request['sme_id'];
+
+                $Tblrolmenusubmenu_rms->save();
+                
+                $datos = $Tblusuariosubmenu_usm::select(DB::raw('distinct usm_usuario,sist_id'))->where([['sro_id',$request['sro_id']],['men_id',$request['men_id']],['sist_id',$request['sist_id']]])->get();
+                for($i = 0; $i < $datos->count();$i++)
+                {
+                    $Tblusuariosubmenu_usm->insert([
+                        'usm_usuario' => $datos[$i]->usm_usuario,
+                        'sist_id' => $datos[$i]->sist_id,
+                        'sro_id' => $request['sro_id'],
+                        'men_id' => $request['men_id'],
+                        'sme_id' => $request['sme_id'],
+                        'rms_id' => $Tblrolmenusubmenu_rms->rms_id
+                    ]);
+                }
+                
+                $success = 1;
                 DB::commit();
             } catch (\Exception $ex) {
                 $success = 2;
@@ -563,7 +582,9 @@ class Roles_Controller extends Controller
             DB::beginTransaction();
             try{
                 $Tblrolmenu_rme = new Tblrolmenu_rme;
+                $Tblusuariomenu_ume = new Tblusuariomenu_ume;
                 $Tblrolmenu_rme::where('rme_id',"=",$request['rme_id'])->delete();
+                $Tblusuariomenu_ume::where('rme_id',"=",$request['rme_id'])->delete();
                 $success = 1;
                 
                 DB::commit();
@@ -593,7 +614,9 @@ class Roles_Controller extends Controller
             DB::beginTransaction();
             try{
                 $Tblrolmenusubmenu_rms = new Tblrolmenusubmenu_rms;
+                $Tblusuariosubmenu_usm = new Tblusuariosubmenu_usm;
                 $Tblrolmenusubmenu_rms::where('rms_id',"=",$request['rms_id'])->delete();
+                $Tblusuariosubmenu_usm::where('rms_id',"=",$request['rms_id'])->delete();
                 $success = 1;
                 
                 DB::commit();
@@ -629,11 +652,16 @@ class Roles_Controller extends Controller
             DB::beginTransaction();
             try{
                 $Tblrolmenu_rme = new Tblrolmenu_rme;
+                $Tblusuariomenu_ume = new Tblusuariomenu_ume;
                 $filas = count($request['contador']);
                 for($i=0; $i<$filas; $i++)
                 {
                     $Tblrolmenu_rme::where('rme_id',$request['rme_id'][$i])->update([
                         'rme_orden' => isset($request['rme_orden'][$i]) ? $request['rme_orden'][$i] : 0,
+                    ]);
+                    
+                    $Tblusuariomenu_ume::where('rme_id',$request['rme_id'][$i])->update([
+                        'ume_orden' => isset($request['rme_orden'][$i]) ? $request['rme_orden'][$i] : 0,
                     ]);
                 }
                 $success = 1;
@@ -670,11 +698,16 @@ class Roles_Controller extends Controller
             DB::beginTransaction();
             try{
                 $Tblrolmenusubmenu_rms = new Tblrolmenusubmenu_rms;
+                $Tblusuariosubmenu_usm = new Tblusuariosubmenu_usm;
                 $filas = count($request['contador1']);
                 for($i=0; $i<$filas; $i++)
                 {
                     $Tblrolmenusubmenu_rms::where('rms_id',$request['rms_id'][$i])->update([
                         'rms_orden' => isset($request['rms_orden'][$i]) ? $request['rms_orden'][$i] : 0,
+                    ]);
+                    
+                    $Tblusuariosubmenu_usm::where('rms_id',$request['rms_id'][$i])->update([
+                        'usm_orden' => isset($request['rms_orden'][$i]) ? $request['rms_orden'][$i] : 0,
                     ]);
                 }
                 $success = 1;
@@ -711,6 +744,93 @@ class Roles_Controller extends Controller
                 ]);
                 $success = 1;
                 
+                DB::commit();
+            } catch (\Exception $ex) {
+                $success = 2;
+                $error = $ex->getMessage();
+                DB::rollback();
+            }
+        }
+
+        if ($success == 1) 
+        {
+            return $success;
+        }
+        else
+        {
+            return $error;
+        } 
+    }
+    
+    public function editar_submenu_rol($rms_id,Request $request)
+    {
+        if($request->ajax())
+        {
+            $error = null;
+
+            DB::beginTransaction();
+            try{
+                $Tblrolmenusubmenu_rms = new Tblrolmenusubmenu_rms;
+                $Tblusuariosubmenu_usm = new Tblusuariosubmenu_usm;
+                $Tblrolmenusubmenu_rms::where('rms_id',$rms_id)->update([
+                    $request['columna'] => $request['valor'],
+                ]);
+                
+                $Tblusuariosubmenu_usm::where('rms_id',$rms_id)->update([
+                    $request['columna'] => $request['valor'],
+                ]);
+                $success = 1;
+                DB::commit();
+            } catch (\Exception $ex) {
+                $success = 2;
+                $error = $ex->getMessage();
+                DB::rollback();
+            }
+        }
+
+        if ($success == 1) 
+        {
+            return $success;
+        }
+        else
+        {
+            return $error;
+        } 
+    }
+    
+    public function editar_menu_rol($rme_id,Request $request)
+    {
+        if($request->ajax())
+        {
+            $error = null;
+
+            DB::beginTransaction();
+            try{
+                $Tblrolmenu_rme = new Tblrolmenu_rme;
+                $Tblrolmenusubmenu_rms = new Tblrolmenusubmenu_rms;
+                $Tblusuariomenu_ume = new Tblusuariomenu_ume;
+                $Tblusuariosubmenu_usm = new Tblusuariosubmenu_usm;
+                
+                $detalle = $Tblrolmenu_rme::where("rme_id","=",$rme_id)->first();
+                if($detalle)
+                {
+                    $detalle->rme_estado = $request['estado'];
+                    $detalle->save();
+                }
+                
+                $Tblrolmenusubmenu_rms::where([['sro_id',$detalle->sro_id],['men_id',$detalle->men_id]])->update([
+                    'btn_view' => $detalle->rme_estado,
+                ]);
+                
+                $Tblusuariomenu_ume::where("rme_id","=",$rme_id)->update([
+                    'ume_estado' => $request['estado']
+                ]);
+                
+                $Tblusuariosubmenu_usm::where([['sro_id',$detalle->sro_id],['men_id',$detalle->men_id]])->update([
+                    'btn_view' => $request['estado']
+                ]);
+                
+                $success = 1;
                 DB::commit();
             } catch (\Exception $ex) {
                 $success = 2;

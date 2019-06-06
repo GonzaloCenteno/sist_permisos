@@ -60,7 +60,7 @@ jQuery(document).ready(function($){
         height: '470px', autowidth: false,
         toolbarfilter: true,
         colNames: ['ID', 'DESCRIPCION', 'RUTA', 'USUARIO'],
-        rowNum: 10, sortname: 'sist_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE SISTEMAS', align: "center",
+        rowNum: 20, sortname: 'sist_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE SISTEMAS', align: "center",
         colModel: [
             {name: 'sist_id', index: 'sist_id', align: 'center',width: 50, hidden:true},
             {name: 'sist_desc', index: 'sist_desc', align: 'left', width: 115},
@@ -68,7 +68,7 @@ jQuery(document).ready(function($){
             {name: 'usuario', index: 'usuario', align: 'left', width: 10,hidden:true}
         ],
         pager: '#paginador_tablaSistemas',
-        rowList: [10, 20, 30, 40, 50],
+        rowList: [20, 30, 40, 50],
         gridComplete: function () {
             var idarray = jQuery('#tablaSistemas').jqGrid('getDataIDs');
             if (idarray.length > 0) {
@@ -88,13 +88,13 @@ jQuery(document).ready(function($){
         height: '470px', autowidth: false,
         toolbarfilter: true,
         colNames: ['ID', 'DESCRIPCION'],
-        rowNum: 10, sortname: 'sro_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE ROLES', align: "center",
+        rowNum: 20, sortname: 'sro_id', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE ROLES', align: "center",
         colModel: [
             {name: 'sro_id', index: 'sro_id', align: 'center',width: 60,hidden:true},
             {name: 'sro_descripcion', index: 'sro_descripcion', align: 'center', width: 272}
         ],
         pager: '#paginador_tablaRoles',
-        rowList: [10, 20, 30, 40, 50],
+        rowList: [20, 30, 40, 50],
         gridComplete: function () {
             var idarray = jQuery('#tablaRoles').jqGrid('getDataIDs');
             if (idarray.length > 0) {
@@ -119,13 +119,14 @@ jQuery(document).ready(function($){
         datatype: 'json', mtype: 'GET',
         height: 'auto', autowidth: false,
         toolbarfilter: true,
-        colNames: ['ID', 'TITULO','DESCRIPCION','MENU SISTEMA'],
+        colNames: ['ID', 'VER','TITULO','DESCRIPCION','MENU SISTEMA'],
         rowNum: 100, sortname: 'ume_orden', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
         colModel: [
             {name: 'men_id', index: 'men_id', align: 'center',width: 50,hidden:true},
-            {name: 'men_titulo', index: 'men_titulo', align: 'left', width: 170},
-            {name: 'men_descripcion', index: 'men_descripcion', align: 'left', width: 238},
-            {name: 'men_sistema', index: 'men_sistema', align: 'left', width: 180}
+            {name: 'marcas', index: 'marcas', align: 'center',width: 80},
+            {name: 'men_titulo', index: 'men_titulo', align: 'left', width: 130},
+            {name: 'men_descripcion', index: 'men_descripcion', align: 'left', width: 212},
+            {name: 'men_sistema', index: 'men_sistema', align: 'left', width: 160}
         ],
         pager: '#paginador_tablaMenus',
         rowList: [],       
@@ -160,7 +161,7 @@ jQuery(document).ready(function($){
         colNames: ['ID', 'USUARIO', 'SRO_ID', 'MEN_ID', 'SIST_ID', 'TITULO', 'VER', 'CREAR', 'EDITAR', 'ELIMINAR', 'IMPRIMIR'],
         rowNum: 100, sortname: 'usm_orden', sortorder: 'asc', viewrecords: true, caption: 'LISTA DE MENUS', align: "center",
         colModel: [
-            {name: 'ume_id', index: 'ume_id', align: 'center',width: 20,hidden:true},
+            {name: 'usm_id', index: 'usm_id', align: 'center',width: 20,hidden:true},
             {name: 'ume_usuario', index: 'ume_usuario', align: 'left', width: 20,hidden:true},
             {name: 'sro_id', index: 'sro_id', align: 'left', width: 20,hidden:true},
             {name: 'men_id', index: 'men_id', align: 'left', width: 20,hidden:true},
@@ -441,7 +442,7 @@ function fn_asignar_roles_usuario(sist_id,usuario)
         typeAnimated: true,
         backgroundDismiss: false,
         backgroundDismissAnimation: 'glow',
-        columnClass: 'large',
+        columnClass: 'medium',
         closeIcon: true,
         theme:'material',
         buttons: {
@@ -472,11 +473,9 @@ function fn_asignar_roles_usuario(sist_id,usuario)
         content: function () 
         {
             var self = this;
-            self.setContent('<div class="form-group col-md-12 text-center" id="FormularioRdbtn">'+
-                                '<center>'+
-                                    '<fieldset id="formRoles">'+
-                                    '</fieldset>'+
-                                '</center>'+
+            self.setContent('<div class="form-group col-md-12 text-left" id="FormularioRdbtn">'+
+                                '<div class="form-control col-md-12 tex-left" id="formRoles">'+
+                                '</div>'+
                             '</div>');
             return $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -486,7 +485,7 @@ function fn_asignar_roles_usuario(sist_id,usuario)
                 html = "";
                 for(i=0;i<response.length;i++)
                 {
-                    html = html + '<input type="radio" name="rdbtn_roles_sistema" class="rdbtn" style="height:30px; width:5%" value="'+response[i].sro_id+'" /><label for="sizeSmall">'+response[i].sro_descripcion+'</label>';
+                    html = html + '<div class="form-control col-md-12 tex-center marcador"><input type="radio" name="rdbtn_roles_sistema" class="rdbtn" style="height:35px; width:20%" value="'+response[i].sro_id+'" /><label for="sizeSmall">'+response[i].sro_descripcion+'</label></div>';
                 }
                 $("#formRoles").html(html);
             }).fail(function(){
@@ -530,19 +529,20 @@ function asignar_roles_sistema(sist_id,usuario)
 }
 
 //CAMBIAR PERMISO USUARIO
-function cambiar_permiso_usuario(ume_id,columna,valor)
+function cambiar_permiso_usuario(usm_id,columna,valor)
 {
     sist_id = $('#tablaSistemas').jqGrid ('getGridParam', 'selrow');
     sro_id = $('#tablaRoles').jqGrid ('getGridParam', 'selrow');
     men_id = $('#tablaMenus').jqGrid ('getGridParam', 'selrow');
     $.ajax({
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        url: 'usuarios/'+ume_id+'/edit',
+        url: 'usuarios/'+usm_id+'/edit',
         type: 'GET',
         data:
         {
             columna:columna,
-            valor:valor
+            valor:valor,
+            tipo:1
         },
         beforeSend:function()
         {            
@@ -557,6 +557,47 @@ function cambiar_permiso_usuario(ume_id,columna,valor)
             {
                 jQuery("#tablaSubMenus").jqGrid('setGridParam', {url: 'usuarios/0?grid=tabla_submenus&sro_id='+sro_id+'&usuario='+$('#tablaSistemas').jqGrid ('getCell', sist_id, 'usuario')+'&men_id='+men_id+'&sist_id='+sist_id}).trigger('reloadGrid');
                 $('.tablaSubMenus').unblock();
+            }
+            else
+            {
+                MensajeAdvertencia('NO SE PUDO ENVIAR LA RESPUESTA');
+                console.log(data);
+            }
+        },
+        error: function(data) {
+            MensajeAdvertencia("hubo un error, Comunicar al Administrador");
+            console.log('error');
+            console.log(data);
+        }
+    });
+}
+
+function fn_cambiar_estado_menu(ume_id,estado)
+{
+    sist_id = $('#tablaSistemas').jqGrid ('getGridParam', 'selrow');
+    sro_id = $('#tablaRoles').jqGrid ('getGridParam', 'selrow');
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: 'usuarios/'+ume_id+'/edit',
+        type: 'GET',
+        data:
+        {
+            estado:estado,
+            tipo:2
+        },
+        beforeSend:function()
+        {            
+            $('.tablaMenus').block({ 
+                message: '<h1>PROCESANDO INFORMACION</h1>', 
+                css: { border: '5px solid #a00',width: '300px' } 
+            }); 
+        },
+        success: function(data) 
+        { 
+            if (data == 1) 
+            { 
+                jQuery("#tablaMenus").jqGrid('setGridParam', {url: 'usuarios/0?grid=tabla_menus&sro_id='+sro_id+'&usuario='+$('#tablaSistemas').jqGrid ('getCell', sist_id, 'usuario')}).trigger('reloadGrid');
+                $('.tablaMenus').unblock();
             }
             else
             {
